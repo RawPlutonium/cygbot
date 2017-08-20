@@ -1,1 +1,1 @@
-web: gunicorn FBbot.wsgi:application --log-file -
+web: gunicorn FBbot.wsgi --log-file -
