@@ -31,4 +31,10 @@ class cygbotview(generic.View):
                 if 'message' in message:
                     #Print the message to the terminal
                     pprint(message)
+                    post_msg_to_facebook(message['sender']['id'], message['message']['text'])
         return HttpResponse
+def post_msg_to_facebook(fbid, received_message):
+    post_msg_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=<PAT>'
+    response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":received_message}})
+    status = requests.post(post_msg_url, headers={"Content-Type": "application/json"},data=response_msg)
+    pprint(status.json())

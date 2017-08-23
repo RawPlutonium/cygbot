@@ -1,4 +1,4 @@
-#!/home/arthur/FBbot/env/bin/python2
+#!/home/arthur/FBbot/env/bin/python
 
 # -*- coding: utf-8 -*-
 import re
