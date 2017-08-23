@@ -25,7 +25,7 @@ SECRET_KEY = 'ozt@3ebcgo91-raepy2=s7w!cb#3-01*m^sm2l!ui-(v)fc*v5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['cygbot.herokuapp.com','localhost']
+ALLOWED_HOSTS = ['cygbot.herokuapp.com','localhost','e5376692.ngrok.io']
 
 
 # Application definition

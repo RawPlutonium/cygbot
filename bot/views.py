@@ -3,20 +3,23 @@ from __future__ import unicode_literals
 from django.views import generic
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.http.response import HttpResponse
+import requests
 import json
-import pprint
+from pprint import pprint
 
 # Create your views here.
 PAT = "EAALvgVZA7qVcBAEBZBOPROoZAhVJANIFOik1OJJ8nXgeBD2OVvtM0tDKgphu4n6VUFLPZAUHovjOgnFu5uPO8wLRZCg2g2P6ZByrm10XKy2eZCIO3rrzFv7OMQAIAl37rIqOu8hWlfjDzro8RQADWlE6goFXXrE45ZBm6xbw4ZCqECAZDZD"
 
 class cygbotview(generic.View):
-    def bview(self, request, *args, **kwargs):
-         if self.request.GET['hub.verify_token'] == '90293269':
-            return HttpResponse(self.request.GET['hub.challenge'])
-         else :
-            return HttpResponse('Invalid Token !')
-    @csrf_exempt
+    def get(self, request, *args, **kwargs):
+        if self.request.GET.get('hub.verify_token') == '90293269':
+            return HttpResponse(self.request.GET.get('hub.challenge'))
+        else:
+            return HttpResponse('Invalid Token Man!')
+
+    @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return generic.View.dispatch(self, request, *args, **kwargs)
     #Post function to handle Facebook messages
@@ -32,9 +35,9 @@ class cygbotview(generic.View):
                     #Print the message to the terminal
                     pprint(message)
                     post_msg_to_facebook(message['sender']['id'], message['message']['text'])
-        return HttpResponse
+        return HttpResponse()
 def post_msg_to_facebook(fbid, received_message):
-    post_msg_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=<PAT>'
+    post_msg_url = 'https://graph.facebook.com/v2.6/me/messages?access_token='+PAT
     response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":received_message}})
     status = requests.post(post_msg_url, headers={"Content-Type": "application/json"},data=response_msg)
     pprint(status.json())
